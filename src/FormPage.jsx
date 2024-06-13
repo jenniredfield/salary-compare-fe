@@ -6,6 +6,8 @@ import { Input } from "./components/Input";
 import { Select } from "./components/Select";
 import { Layout } from "./components/Layout";
 import { SlideUp } from "./components/SlideUp";
+import { DATABASE } from "./constants/config";
+import axios from "axios";
 
 const FORM_INPUTS = [
   { name: "role", placeholder: "Role", id: "role" },
@@ -50,10 +52,15 @@ export const FormPage = () => {
     },
   });
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("🚀 ~ onSubmit ~ data:", data);
-
-    navigate("/results");
+    try {
+      const res = await axios.post(`${DATABASE}/salaries/users`, data);
+      console.log("res", res);
+      navigate("/results");
+    } catch (err) {
+      console.log("🚀 ~ onSubmit ~ err:", err);
+    }
   };
 
   return (
