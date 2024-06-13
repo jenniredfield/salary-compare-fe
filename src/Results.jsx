@@ -24,7 +24,7 @@ export const Results = () => {
     <Layout>
       <SectionContainer>
         <SlideUp>
-          <h1 className="text-[60px] text-bold">Your Results</h1>
+          <h1 className="text-[40px] text-bold text-center">Your Results</h1>
           <GaugeComponent
             value={80}
             type="radial"
