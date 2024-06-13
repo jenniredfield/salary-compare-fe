@@ -13,9 +13,9 @@ const FORM_INPUTS = [
   { name: "role", placeholder: "Role", id: "role" },
   { name: "salary", placeholder: "Salary", id: "salary" },
   {
-    name: "yearsExperience",
+    name: "years_exp",
     placeholder: "Years Experience",
-    id: "yearsExperience",
+    id: "years_exp",
   },
   {
     name: "gender",
@@ -29,11 +29,11 @@ const FORM_INPUTS = [
   //   placeholder: "Company Size",
   //   id: "companySize",
   // },
-  {
-    name: "industry",
-    placeholder: "Industry",
-    id: "industry",
-  },
+  // {
+  //   name: "industry",
+  //   placeholder: "Industry",
+  //   id: "industry",
+  // },
 ];
 
 export const FormPage = () => {
@@ -41,21 +41,17 @@ export const FormPage = () => {
 
   const methods = useForm({
     defaultValues: {
-      name: "",
       role: "",
       salary: "",
-      yearsExperience: "",
-      gender: "",
-      companySize: "",
-      industry: "",
-      email: "",
+      years_exp: "",
+      gender: "female",
     },
   });
 
   const onSubmit = async (data) => {
     console.log("🚀 ~ onSubmit ~ data:", data);
     try {
-      const res = await axios.post(`${DATABASE}/salaries/users`, data);
+      const res = await axios.post(`${DATABASE}/salaries/users/`, data);
       console.log("res", res);
       navigate("/results");
     } catch (err) {
