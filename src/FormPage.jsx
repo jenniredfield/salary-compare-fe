@@ -47,7 +47,6 @@ export const FormPage = () => {
       companySize: "",
       industry: "",
       email: "",
-      // fruit: "",
     },
   });
 

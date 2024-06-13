@@ -1,11 +1,24 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SectionContainer } from "./components/SectionContainer";
 import GaugeComponent from "react-gauge-component";
+import { SectionContainer } from "./components/SectionContainer";
 import { Layout } from "./components/Layout";
 import { SlideUp } from "./components/SlideUp";
+import { Button } from "./components/Button";
+
+const BUTTON_OPTIONS = [
+  { id: "all", text: "All" },
+  { id: "male", text: "Male" },
+  { id: "female", text: "Female" },
+];
 
 export const Results = () => {
+  const [comparer, setComparer] = useState("all"); // all | female | male
   const navigate = useNavigate();
+
+  const onToggle = (id) => {
+    setComparer(id);
+  };
 
   return (
     <Layout>
@@ -21,8 +34,6 @@ export const Results = () => {
                 style: {
                   fontSize: "35px",
                   fill: "#000",
-                  // textShadow:
-                  //   "black 1px 1px 0px, black 0px 0px 2.5em, black 0px 0px 0.2em",
                 },
               },
             }}
@@ -43,6 +54,21 @@ export const Results = () => {
               Average salary is: £50,000
             </h2>
             <h2 className="font-bold text-[20px]">Your salary is: £40,000</h2>
+          </div>
+          <div className="mt-[40px]">
+            <h2 className="mb-6 font-bold">Compare by:</h2>
+            <div className="flex gap-4">
+              {BUTTON_OPTIONS.map((option) => {
+                return (
+                  <Button
+                    onClick={() => onToggle(option.id)}
+                    active={option.id === comparer}
+                  >
+                    {option.text}
+                  </Button>
+                );
+              })}
+            </div>
           </div>
         </SlideUp>
       </SectionContainer>
