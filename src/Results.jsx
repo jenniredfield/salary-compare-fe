@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import GaugeComponent from "react-gauge-component";
 import { SectionContainer } from "./components/SectionContainer";
 import { Layout } from "./components/Layout";
 import { SlideUp } from "./components/SlideUp";
-import { Button } from "./components/Button";
+import { DATABASE } from "./constants/config";
+import axios from "axios";
 
 const BUTTON_OPTIONS = [
   { id: "all", text: "All" },
@@ -12,13 +13,45 @@ const BUTTON_OPTIONS = [
   { id: "female", text: "Female" },
 ];
 
+const calculateAverage = (list) => {
+  try {
+    const len = list.length;
+    const totalSalarySum = list.reduce((a, b) => {
+      return (a += Number(b.salary));
+    }, 0);
+    return totalSalarySum / len;
+  } catch (err) {}
+};
+
+const calculatePercentage = (average, salary) => {
+  return (salary / average) * 100;
+};
+
+//(value/total value)×100%
+
 export const Results = () => {
+  const location = useLocation();
+  console.log("🚀 ~ Results ~ location:", location);
+  const previousStateSalary = location?.state?.salary;
   const [comparer, setComparer] = useState("all"); // all | female | male
   const navigate = useNavigate();
+  const [average, setAverage] = useState("");
+  const [percentage, setPercentage] = useState(0);
 
-  const onToggle = (id) => {
-    setComparer(id);
-  };
+  useEffect(() => {
+    const getAverage = async () => {
+      try {
+        const res = await axios.get(`${DATABASE}/salary/users`);
+        const average = calculateAverage(res);
+        setAverage(average);
+        const percentage = calculatePercentage(average, previousStateSalary);
+        setPercentage(percentage);
+      } catch (err) {
+        console.log("🚀 ~ getAverage ~ err:", err);
+      }
+    };
+    getAverage();
+  }, []);
 
   return (
     <Layout>
@@ -26,7 +59,7 @@ export const Results = () => {
         <SlideUp>
           <h1 className="text-[40px] text-bold text-center">Your Results</h1>
           <GaugeComponent
-            value={80}
+            value={percentage}
             type="radial"
             hide={true}
             labels={{
@@ -51,11 +84,13 @@ export const Results = () => {
 
           <div className="text-center mt-[20px]">
             <h2 className="font-bold text-[20px]">
-              Average salary is: £50,000
+              Average salary is: £{average}
             </h2>
-            <h2 className="font-bold text-[20px]">Your salary is: £40,000</h2>
+            <h2 className="font-bold text-[20px]">
+              Your salary is: £{previousStateSalary}
+            </h2>
           </div>
-          <div className="mt-[40px]">
+          {/* <div className="mt-[40px]">
             <h2 className="mb-6 font-bold">Compare by:</h2>
             <div className="flex gap-4">
               {BUTTON_OPTIONS.map((option) => {
@@ -69,7 +104,7 @@ export const Results = () => {
                 );
               })}
             </div>
-          </div>
+          </div> */}
         </SlideUp>
       </SectionContainer>
     </Layout>

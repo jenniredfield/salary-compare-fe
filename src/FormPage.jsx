@@ -52,8 +52,8 @@ export const FormPage = () => {
     console.log("🚀 ~ onSubmit ~ data:", data);
     try {
       const res = await axios.post(`${DATABASE}/salaries/users/`, data);
-      console.log("res", res);
-      navigate("/results");
+
+      navigate("/results", { state: { salary: data.salary } });
     } catch (err) {
       console.log("🚀 ~ onSubmit ~ err:", err);
     }
