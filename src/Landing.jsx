@@ -23,7 +23,7 @@ export const Landing = () => {
       <SectionContainer>
         <div className="flex flex-col gap-[20px] items-center w-full">
           <SlideUp>
-            <div className="flex md:flex-row flex-col justify-between gap-[20px] px-0 md:px-4  w-full">
+            <div className="flex md:flex-row flex-col justify-between gap-[40px] px-0 md:px-4  w-full">
               <ContentSection
                 title="Bridge the Wage Gap"
                 content={` ${APP_NAME} is a platform designed for professionals to anonymously

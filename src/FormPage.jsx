@@ -8,6 +8,7 @@ import { Layout } from "./components/Layout";
 import { SlideUp } from "./components/SlideUp";
 import { DATABASE } from "./constants/config";
 import axios from "axios";
+import { useEffect } from "react";
 
 const FORM_INPUTS = [
   { name: "role", placeholder: "Role", id: "role" },
@@ -38,6 +39,10 @@ const FORM_INPUTS = [
 
 export const FormPage = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0,0)
+  },[])
 
   const methods = useForm({
     defaultValues: {
